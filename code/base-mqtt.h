@@ -2,11 +2,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "WiFiConexion.h"
-
-const char* ssid = "memovalverd_2.4G";
-const char* password = "seguridadOUT#23";
-
-const char* mqtt_server = "192.168.100.23";
+#include "config.h"
 
 WiFiClient espClient;
 PubSubClient client(espClient);
