@@ -4,7 +4,7 @@ Codigo fuente de mi curso de IoT con ESP32 usando el entorno de Arduino.
 AngularJS-powered HTML5 Markdown editor.
 
 ## Installation
-Requieres de un editor de texto con el entorno de PlatformIO.
+Requieres de un editor de texto con el entorno de [PlatformIO](https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide).
 
 ```sh
 cd esp32-mqtt-curso
