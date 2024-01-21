@@ -1,3 +1,6 @@
+// Debes de crear un archivo config.h con las siguientes constantes
+// de entorno
+
 const char* ssid = "";
 const char* password = "";
 

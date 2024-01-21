@@ -2,77 +2,86 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "WiFiConexion.h"
-#include "config.h"
+
+#define LED_PIN 2
+
+const char* ssid = "";
+const char* password = "";
+
+// Datos broker MQTT
+const char* mqttServer = "192.200.201.65";
+const char* mqttUsername = "";
+const char* mqttPassword = "";
+const int mqttPort = 1883;
 
 const char* topicLed = "guillermovalverdebaez/feeds/led";
 const char* topicMsg = "guillermovalverdebaez/feeds/msg";
+
+String message;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
 unsigned long lastMillis = 0;
 
-void callback(char* topic, byte* payload, unsigned int length);
 void reconnect( void );
+void callback(char* topic, byte* payload, unsigned int length);
 
 void setup( void ) {
   Serial.begin(9600);
+  pinMode(LED_PIN, OUTPUT);
  
   conectToWiFi(ssid, password);
 
-  client.setServer(mqtt_server, 1883);
+  client.setServer(mqttServer, mqttPort);
   client.setCallback(callback);
-
-
-  pinMode(2, OUTPUT);
 
   lastMillis = millis();
 }
 
 void loop( void ) {
-  if (!client.connected()) {
+
+  if(!client.connected()){
     reconnect();
   }
   client.loop();
 
-  if (millis() - lastMillis > 5000) {
-    client.publish(topicMsg, "Hola desde ESP32");
-    lastMillis = millis();
+  if(Serial.available()){
+    message = Serial.readString();
+    char messageChar[message.length() + 1];
+
+    message.toCharArray(messageChar, message.length() + 1);
+    client.publish(topicMsg, messageChar);
   }
+
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Mensaje nuevo en el topico: ");
-  Serial.print(topic);
-  Serial.print(". Mensaje: ");
-  String messageTemp;
-  
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-    messageTemp += (char)payload[i];
-  }
-  Serial.println();
+  String payloadMsg;
 
-  if (String(topic) == topicLed) {
-    Serial.print("Changing output to ");
-    if(messageTemp == "on"){
-      Serial.println("on");
-      digitalWrite(2, HIGH);
-    }
-    else if(messageTemp == "off"){
-      Serial.println("off");
-      digitalWrite(2, LOW);
-    }
+  for(int i=0; i<length; i++){
+    payloadMsg += (char)payload[i];
   }
+  Serial.println(payloadMsg);
+
+  if(String(topic) == topicLed){
+    if(payloadMsg == "on")
+      digitalWrite(LED_PIN, HIGH);
+    else
+      digitalWrite(LED_PIN, LOW);
+  }
+
 }
 
 void reconnect( void ) {
+
   while (!client.connected()) {
     Serial.println("Intentando conexión a servidor MQTT...");
 
-    if (client.connect("ESP32-Guillermo", username, pass)) {
+    if (client.connect("esp32Guillermo", mqttUsername, mqttPassword)) {
       Serial.println("Conectado");
       client.subscribe(topicLed);
+      client.subscribe("esp32/ibox");
     } else {
       Serial.print("Falló, rc=");
       Serial.print(client.state());
@@ -80,4 +89,7 @@ void reconnect( void ) {
       delay(5000);
     }
   }
+
 }
+
+
