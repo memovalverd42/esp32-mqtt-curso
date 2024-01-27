@@ -1,0 +1,35 @@
+1. Sistema de Monitoreo Ambiental:
+    - Utiliza sensores de temperatura, humedad y calidad del aire.
+    - Publica estos datos en un topic MQTT y muestra la información en un display LCD.
+    - Puedes agregar alarmas o notificaciones en caso de que las condiciones ambientales salgan de los límites aceptables.
+
+2. Control de Acceso con RFID:
+
+    - Integra el módulo de RFID para controlar el acceso a una puerta.
+    - Los usuarios autorizados tendrán una tarjeta RFID y al acercarla al lector, se enviará un mensaje MQTT para permitir o denegar el acceso.
+    - Puedes usar un display LCD para mostrar el estado del acceso.
+
+3. Automatización de Procesos con Motores:
+
+    - Conecta motores a la ESP32 para simular procesos industriales.
+    - Publica mensajes MQTT para controlar el encendido y apagado de los motores.
+    - Puedes agregar sensores para detectar condiciones que activen o desactiven automáticamente los motores.
+
+4. Sistema de Alarma con Sensores de Movimiento:
+
+    - Utiliza sensores de movimiento para detectar actividad no autorizada.
+    - Publica mensajes MQTT en un topic de alarma cuando se detecte movimiento.
+    - Integra un sistema de notificación o enciende luces de advertencia.
+
+5. Control de Producción con Contadores:
+
+    - Utiliza contadores para simular la producción de productos.
+    - Publica el conteo en tiempo real en un topic MQTT.
+    - Puedes agregar lógica para detener la producción cuando se alcanza un límite.
+
+6. Sistema de Monitoreo Remoto de Equipos:
+
+    - Conecta diferentes sensores a la ESP32 para monitorear el estado de equipos industriales.
+    - Publica mensajes MQTT con información sobre el estado y condiciones de los equipos.
+    - Puedes mostrar estos datos en un display LCD y establecer alertas en caso de problemas.
+
